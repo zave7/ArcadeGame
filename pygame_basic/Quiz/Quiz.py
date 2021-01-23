@@ -12,6 +12,7 @@
 # 3. 똥 : 70 * 70 - enemy.png
 
 import pygame
+import random as rd
 ################################## 기본 초기화 (반드시 해야 하는 것들)##################################
 
 pygame.init() # 초기화 (반드시 필요)
@@ -22,7 +23,7 @@ screen_height = 640 # 세로 크기
 screen = pygame.display.set_mode((screen_width, screen_height)) # 화면 설정
 
 # 화면 타이틀 설정
-pygame.display.set_caption("zave's Game") # 게임 이름
+pygame.display.set_caption("똥피하기 게임") # 게임 이름
 
 # FPS 설정
 clock = pygame.time.Clock()
@@ -34,11 +35,36 @@ clock = pygame.time.Clock()
 # 배경 화면
 background = pygame.image.load("C:\\dev\\workspace\\python-ArcadeGame\\pygame_basic\\Quiz\\background.png")
 
+# 랜덤 좌표 값 구하는 함수
+def getEnemyXPosition():
+    return rd.randint(0, screen_width - enemy_width)
+
 # 캐릭터
 character = pygame.image.load("C:\\dev\\workspace\\python-ArcadeGame\\pygame_basic\\Quiz\\character.png")
+character_size = character.get_rect().size
+character_width = character_size[0]
+character_height = character_size[1]
+character_x_pos = (screen_width / 2) - (character_width / 2)
+character_y_pos = screen_height - character_height
 
 # 똥
 enemy = pygame.image.load("C:\\dev\\workspace\\python-ArcadeGame\\pygame_basic\\Quiz\\enemy.jpg")
+enemy_size = enemy.get_rect().size
+enemy_width = enemy_size[0]
+enemy_height = enemy_size[1]
+enemy_x_pos = getEnemyXPosition()
+enemy_y_pos = 0 - enemy_height
+
+# 캐릭터 좌표
+c_to_x = 0
+c_to_y = 0
+
+# 똥 좌표
+e_to_x = 0
+e_to_y = 
+# 캐릭터 속도
+
+# 똥 속도
 
 running = True
 while running:
@@ -48,6 +74,12 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+            
+        if event.type == pygame.KEYDOWN:
+
+            if event.key == pygame.K_LEFT:
+                
+            if event.key == pygame.K_RIGHT:
     
     # 3. 게임 캐릭터 위치 정의
 
