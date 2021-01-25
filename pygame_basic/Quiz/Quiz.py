@@ -53,7 +53,7 @@ enemy_size = enemy.get_rect().size
 enemy_width = enemy_size[0]
 enemy_height = enemy_size[1]
 enemy_x_pos = getEnemyXPosition()
-enemy_y_pos = 0 - enemy_height
+enemy_y_pos = -enemy_height
 
 # 캐릭터 좌표
 c_to_x = 0
@@ -61,10 +61,13 @@ c_to_y = 0
 
 # 똥 좌표
 e_to_x = 0
-e_to_y = 
+e_to_y = 0
+
 # 캐릭터 속도
+character_speed = 0.6
 
 # 똥 속도
+enemy_speed = 0.5
 
 running = True
 while running:
@@ -76,16 +79,50 @@ while running:
             running = False
             
         if event.type == pygame.KEYDOWN:
-
             if event.key == pygame.K_LEFT:
-                
+                c_to_x = -1
             if event.key == pygame.K_RIGHT:
+                c_to_x = 1
+            if event.key == pygame.K_LEFT and event.key == pygame.K_UP:
+                print("동시에눌림")
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                c_to_x = 0
+
+    character_x_pos += character_speed * dt * c_to_x
     
+    if character_x_pos < 0:
+        character_x_pos = 0
+    elif character_x_pos > ( screen_width - character_width ):
+        character_x_pos = screen_width - character_width
+
+    # 똥의 y 좌표 조정
+    # e_to_y += enemy_speed
+    if enemy_y_pos > screen_height:
+        enemy_x_pos = getEnemyXPosition()
+        enemy_y_pos = -enemy_height
+    enemy_y_pos += enemy_speed * dt
+
+    character_rect = character.get_rect()
+    character_rect.left = character_x_pos
+    character_rect.top = character_y_pos
+
+    enemy_rect = enemy.get_rect()
+    enemy_rect.left = enemy_x_pos
+    enemy_rect.top = enemy_y_pos
     # 3. 게임 캐릭터 위치 정의
+    
 
     # 4. 충돌 처리
+    if character_rect.colliderect(enemy_rect):
+        print("게임 종료")
+        running = False
 
     # 5. 화면에 그리기
+
+    screen.blit(background, (0,0))
+    screen.blit(character, (character_x_pos, character_y_pos))
+    screen.blit(enemy, (enemy_x_pos, enemy_y_pos))
 
     pygame.display.update()
 
